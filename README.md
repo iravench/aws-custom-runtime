@@ -8,8 +8,11 @@ aws lambda publish-layer-version --layer-name bash-runtime --zip-file fileb://ru
 
 then update template.yaml -> Layers to point to the above published layers' arn
 
-mysql-layer is to provide mysql client commands
-runtime is to bootstrap and allow the bash funtion to be executed, see ./runtime/boostrap
+mysql-layer is what provides those mysql client commands
+
+runtime is to bootstrap and run the bash funtion, see ./runtime/boostrap
+
+and https://docs.aws.amazon.com/en_us/lambda/latest/dg/runtimes-walkthrough.html
 
 ### Test locally with SAM cli
 
@@ -26,3 +29,7 @@ sam build
 # test run the function locally via docker container
 sam local invoke MySQLDumpFunction --parameter-overrides Uhostname=127.0.0.1 Udbname=tmp Uusername=root Upassword=123
 ```
+
+### deployment
+
+...
