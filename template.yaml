@@ -1,0 +1,35 @@
+Parameters:
+  Uhostname:
+    Type: String
+    Description: UAT database host name
+  Udbname:
+    Type: String
+    Description: UAT database db name
+  Uusername:
+    Type: String
+    Description: UAT database user name
+  Upassword:
+    Type: String
+    Description: UAT database password
+
+Resources:
+  MySQLDumpFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: MySQLDump
+      Handler: function.handler
+      Runtime: provided
+      MemorySize: 256
+      Timeout: 10
+      CodeUri: .
+      Layers:
+        - arn:aws:lambda:ap-southeast-2:xxxx:layer:bash-runtime:1
+        - arn:aws:lambda:ap-southeast-2:xxxx:layer:mysql-layer:1
+      Environment:
+        Variables:
+          UAT_HOSTNAME: !Ref Uhostname
+          UAT_DBNAME: !Ref Udbname
+          UAT_USERNAME: !Ref Uusername
+          UAT_PASSWORD: !Ref Upassword
+    Metadata:
+      BuildMethod: makefile
