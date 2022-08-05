@@ -1,16 +1,28 @@
 Parameters:
-  Uhostname:
+  TargetHost:
     Type: String
-    Description: UAT database host name
-  Udbname:
+    Description: target database host name
+  TargetDb:
     Type: String
-    Description: UAT database db name
-  Uusername:
+    Description: target database db name
+  TargetUser:
     Type: String
-    Description: UAT database user name
-  Upassword:
+    Description: target database user name
+  TargetPassword:
     Type: String
-    Description: UAT database password
+    Description: target database password
+  SourceHost:
+    Type: String
+    Description: source database host name
+  SourceDb:
+    Type: String
+    Description: source database db name
+  SourceUser:
+    Type: String
+    Description: source database user name
+  SourcePassword:
+    Type: String
+    Description: source database password
 
 Resources:
   MySQLDumpFunction:
@@ -19,17 +31,21 @@ Resources:
       FunctionName: MySQLDump
       Handler: function.handler
       Runtime: provided
-      MemorySize: 256
-      Timeout: 10
+      MemorySize: 256 # in MB
+      Timeout: 60 # in seconds
       CodeUri: .
       Layers:
         - arn:aws:lambda:ap-southeast-2:xxxx:layer:bash-runtime:1
         - arn:aws:lambda:ap-southeast-2:xxxx:layer:mysql-layer:1
       Environment:
         Variables:
-          UAT_HOSTNAME: !Ref Uhostname
-          UAT_DBNAME: !Ref Udbname
-          UAT_USERNAME: !Ref Uusername
-          UAT_PASSWORD: !Ref Upassword
+          TARGET_HOST: !Ref TargetHost
+          TARGET_DB: !Ref TargetDb
+          TARGET_USER: !Ref TargetUser
+          TARGET_PASSWORD: !Ref TargetPassword
+          SOURCE_HOST: !Ref SourceHost
+          SOURCE_DB: !Ref SourceDb
+          SOURCE_USER: !Ref SourceUser
+          SOURCE_PASSWORD: !Ref SourcePassword
     Metadata:
       BuildMethod: makefile
